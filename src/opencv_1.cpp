@@ -125,7 +125,8 @@ int main()
 
                     mask(shadow).setTo(0);
                 }
-                cv::findContours(
+            }
+            cv::findContours(
                     mask,
                     contours,
                     cv::RETR_EXTERNAL,
@@ -138,7 +139,6 @@ int main()
                     i,
                     cv::Scalar(0, 0, 255),
                     2);
-            }
         }
 
         // 显示
