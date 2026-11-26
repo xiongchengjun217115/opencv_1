@@ -73,6 +73,29 @@ int main()
         {
             if (cv::contourArea(contours[i]) > 100000)
             {
+                cv::Rect rect = cv::boundingRect(contours[i]);
+                cv::Rect feet(
+                    rect.x,
+                    rect.y + rect.height * 0.85,
+                    rect.width,
+                    rect.height * 0.15);
+                cv::Mat v;
+                cv::extractChannel(hsv_img, v, 2);
+                cv::Mat feet_v = v(feet);
+                cv::Mat gradient;
+                cv::Sobel(feet_v, gradient, CV_32F, 0, 1, 3);
+                cv::Mat gradient_show;
+                cv::convertScaleAbs(gradient, gradient_show);
+                // cv::imshow("Gradient", gradient_show);
+                cv::Mat negative_gradient;
+                cv::inRange(
+                    gradient,
+                    cv::Scalar(-10000),
+                    cv::Scalar(-50),
+                    negative_gradient);
+
+                cv::imshow("Negative Gradient", negative_gradient);
+                cv::rectangle(img, feet, cv::Scalar(0, 255, 0), 2);
                 cv::drawContours(
                     img,
                     contours,
@@ -93,7 +116,7 @@ int main()
 
         // 显示视频
         cv::imshow("Video", img);
-        if (cv::waitKey(1) == 'q')
+        if (cv::waitKey(30) == 'q')
             break;
     }
     cap.release();
