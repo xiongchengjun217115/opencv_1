@@ -153,12 +153,19 @@ int main()
             contours,
             cv::RETR_EXTERNAL,
             cv::CHAIN_APPROX_SIMPLE);
-        cv::drawContours(
-            img,
-            contours,
-            -1,
-            cv::Scalar(0, 0, 255),
-            2);
+
+        for (int i = 0; i < contours.size(); i++)
+        {
+            if (cv::contourArea(contours[i]) > 100000)
+            {
+                cv::drawContours(
+                    img,
+                    contours,
+                    i,
+                    cv::Scalar(0, 0, 255),
+                    2);
+            }
+        }
 
         // 显示
         // cv::namedWindow("Image1", cv::WINDOW_NORMAL);
