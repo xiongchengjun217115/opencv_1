@@ -93,7 +93,14 @@ int main()
                     cv::Scalar(-10000),
                     cv::Scalar(-50),
                     negative_gradient);
+                cv::Mat kernel = cv::getStructuringElement(
+                    cv::MORPH_RECT, cv::Size(3, 1));
 
+                cv::morphologyEx(
+                    negative_gradient,
+                    negative_gradient,
+                    cv::MORPH_OPEN,
+                    kernel);
                 cv::imshow("Negative Gradient", negative_gradient);
                 cv::rectangle(img, feet, cv::Scalar(0, 255, 0), 2);
                 cv::drawContours(
