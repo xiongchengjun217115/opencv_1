@@ -126,21 +126,19 @@ int main()
                     mask(shadow).setTo(0);
                 }
             }
-            cv::findContours(
-                    mask,
-                    contours,
-                    cv::RETR_EXTERNAL,
-                    cv::CHAIN_APPROX_SIMPLE);
-                //cv::imshow("Negative Gradient", negative_gradient);
-                cv::rectangle(img, feet, cv::Scalar(0, 255, 0), 2);
-                cv::drawContours(
-                    img,
-                    contours,
-                    i,
-                    cv::Scalar(0, 0, 255),
-                    2);
         }
+        cv::findContours(mask, contours,
+                         cv::RETR_EXTERNAL,
+                         cv::CHAIN_APPROX_SIMPLE);
 
+        for (int i = 0; i < contours.size(); i++)
+        {
+            if (cv::contourArea(contours[i]) > 100000)
+            {
+                cv::drawContours(img, contours, i,
+                                 cv::Scalar(0, 0, 255), 2);
+            }
+        }
         // 显示
         // cv::namedWindow("Image1", cv::WINDOW_NORMAL);
         // cv::namedWindow("Image2", cv::WINDOW_NORMAL);
@@ -152,7 +150,7 @@ int main()
 
         // 显示视频
         cv::imshow("Video", img);
-        if (cv::waitKey(30) == 'q')
+        if (cv::waitKey(1) == 'q')
             break;
     }
     cap.release();
