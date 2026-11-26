@@ -29,14 +29,18 @@ int main()
     // 转化
     while (cap.read(img))
     {
-        //cv::cvtColor(img, gray_img, cv::COLOR_BGR2GRAY);
+        // cv::cvtColor(img, gray_img, cv::COLOR_BGR2GRAY);
         cv::cvtColor(img, hsv_img, cv::COLOR_BGR2HSV);
         cv::inRange(
             hsv_img,
-            cv::Scalar(91, 0, 141),
-            cv::Scalar(137, 194, 255),
+            cv::Scalar(96, 0, 179),
+            cv::Scalar(179, 255, 255),
             mask);
         cv::bitwise_not(mask, mask);
+        cv::Mat kernel = cv::getStructuringElement(
+            cv::MORPH_RECT, cv::Size(5, 5));
+
+        cv::erode(mask, mask, kernel);
 
         // 调参
         //   int hmin = 0, smin = 0, vmin = 0;
