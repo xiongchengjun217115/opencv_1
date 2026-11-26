@@ -115,8 +115,8 @@ int main()
         cv::cvtColor(img, hsv_img, cv::COLOR_BGR2HSV);
         cv::inRange(
             hsv_img,
-            cv::Scalar(64, 0, 0),
-            cv::Scalar(117, 37, 194),
+            cv::Scalar(0, 25, 25),
+            cv::Scalar(45, 255, 255),
             mask);
         // cv::bitwise_not(mask, mask);
         // cv::Mat kernel = cv::getStructuringElement(
