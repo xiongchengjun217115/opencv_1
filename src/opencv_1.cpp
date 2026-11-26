@@ -115,8 +115,6 @@ int main()
                 }
                 if (best_y >= 0 && max_count > 20)
                 {
-                    if (rect.y + rect.height >= img.rows+0.0001)
-                        continue;
                     int cut_y = feet.y + best_y;
 
                     cv::Rect shadow(
