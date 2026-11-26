@@ -81,7 +81,7 @@ int main()
 
         // 显示视频
         cv::imshow("Video", img);
-        if (cv::waitKey(20) == 'q')
+        if (cv::waitKey(1) == 'q')
             break;
     }
     cap.release();
