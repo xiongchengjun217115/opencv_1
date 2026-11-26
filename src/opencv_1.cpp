@@ -95,13 +95,42 @@ int main()
                     negative_gradient);
                 cv::Mat kernel = cv::getStructuringElement(
                     cv::MORPH_RECT, cv::Size(3, 1));
-
                 cv::morphologyEx(
                     negative_gradient,
                     negative_gradient,
                     cv::MORPH_OPEN,
                     kernel);
-                cv::imshow("Negative Gradient", negative_gradient);
+                int best_y = -1;
+                int max_count = 0;
+
+                for (int y = 0; y < negative_gradient.rows; y++)
+                {
+                    int count = cv::countNonZero(negative_gradient.row(y));
+
+                    if (count > max_count)
+                    {
+                        max_count = count;
+                        best_y = y;
+                    }
+                }
+                if (best_y >= 0 && max_count > 20)
+                {
+                    int cut_y = feet.y + best_y;
+
+                    cv::Rect shadow(
+                        rect.x,
+                        cut_y,
+                        rect.width,
+                        rect.y + rect.height - cut_y);
+
+                    mask(shadow).setTo(0);
+                }
+                cv::findContours(
+                    mask,
+                    contours,
+                    cv::RETR_EXTERNAL,
+                    cv::CHAIN_APPROX_SIMPLE);
+                //cv::imshow("Negative Gradient", negative_gradient);
                 cv::rectangle(img, feet, cv::Scalar(0, 255, 0), 2);
                 cv::drawContours(
                     img,
